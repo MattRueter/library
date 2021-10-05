@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+    <script src='library.js' defer></script>
+    <link rel="stylesheet" href='library.css'>
+  <title>Library</title>
+</head>
+    <body>
+        <main>
+          <div class="formContainer">
+            <div id="time"></div>
+            <div class="addBookForm">
+                <input type='text' class="input" id='title' placeholder='title'></input>
+                <input type='text' class="input" id='author' placeholder='author'></input>
+                <input type='text' class="input" id='language' placeholder='language'></input>
+                <input type='text' class="input" id='status' placeholder='"read" or "not read"'></input>
+                <button type='text' class="input" id='addBookBtn'>Add Book</button>
+            </div>
+            <button id="sortTitleBtn" class="sortBtn">Show by title</button>
+            <button id="sortAuthorBtn" class="sortBtn">Show by author</button>
+            <button id="sortLanguageBtn" class="sortBtn">Show by language</button>
+            <button id="sortStatusBtn" class="sortBtn">Show by status</button>
+            <button id="clear" class="sortBtn">clear</button>
+            <button id="filterMenuBtn" class="sortBtn">Filter</button>
+            <button id="background">Background</button>
+            <div class="filterForm" id="filterForm">
+                <button class="closeWindow">x</button>
+                <input type='text' class="input" id='filterTitle' placeholder='by title'></input>
+                <input type='text' class="input" id='filterAuthor' placeholder='by author'></input>
+                <input type='text' class="input" id='filterLanguage' placeholder='by language'></input>
+                <input type='text' class="input" id='filterStatus' placeholder='"read" or "not read"'></input>
+                <button type='text' class="input" id='filterBtn'>Search</button>
+            </div>
+          </div>
+            <div id="displayContainer">
+            </div>
+        </main>
+      </body>
+</html>

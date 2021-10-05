@@ -1,0 +1,132 @@
+body{
+  background-color: #1f6179;
+}
+main{
+  margin:1%;
+  poistion:fixed;
+  display:flex;
+  flex-direction: row;
+  flex-wrap: no-wrap;
+  justify-content:flex-start;
+  background-image: url("library.png");
+  /*background-image: url("books.png");*/
+  /*background-image: url("stacks.png")*/
+  /*background-image: url("row.jpg");*/
+  /*background-color: #f69292;*/
+}
+.main1{
+  background-image: url("books.png");
+}
+.main2{
+  background-image: url("stacks.png")
+}
+.main3{
+  background-image: url("row.jpg");
+}
+.main4{
+  background-color: #f69292;
+}
+.formContainer{
+  background-color: gray;
+  box-shadow: 1px 1px 15px black;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  height:800px;
+  width:225px;
+}
+#time{
+  border: 1px solid black;
+  height:90px;
+  width:190px;
+  margin-top:3%;
+}
+.addBookForm{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
+  border:1px solid black;
+  background-color: lightgray;
+  margin-top: 10%;
+  box-shadow: 3px 3px 5px;
+  height:250px;
+  width: 200px;
+}
+button{
+  width:100px;
+}
+.sortBtn{
+  margin-top: 5%;
+}
+#filterMenuBtn{
+  border-radius: 5px;
+  background-color: skyblue;
+}
+.filterForm{
+  display:none;
+}
+    .show{
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content:space-around;
+      border:1px solid black;
+      background-color: lightgray;
+      margin-top: 10%;
+      box-shadow: 3px 3px 5px;
+      height:250px;
+      width: 200px;
+      position: absolute;
+      z-index:2;
+      margin-left: 30%;
+      margin-top:20%;
+      border-radius: 5px;
+      background-color: #87ceeb;
+      box-shadow: 2px 2px 5px black;
+    }
+    .closeWindow{
+      position: absolute;
+      margin-top:97%;
+      margin-left: 80%;
+      background-color: #87ceeb;
+      border-radius: 8px;
+      border:none;
+      box-shadow: 1px 1px 3px black;
+      height:25px;
+      width:25px;
+      text-align: center;
+    }
+    .closeWindow:hover{
+      background-color:lightblue;
+    }
+
+
+#displayContainer{
+  display:flex;
+  flex-direction: column;
+  background: linear-gradient(transparent);
+  box-shadow: 4px 4px 40px;
+  margin:2%;
+  margin-left:5%;
+  min-height:500px;
+  width:1000px;
+}
+      #displayContainerHead{
+        text-align: center;
+        font-size: 50px;;
+        height: 50px;
+        background: linear-gradient(white,#d3d3d3 20%);
+
+      }
+      .displayItem{
+        background-color: #e2f4fa;
+        border:1px solid lightgray;
+        box-shadow: 1px 1px 2px lightgray;
+        border-radius: 4px;
+        margin:1%;
+        height:50px;
+        width:500px;
+        font-size: large;
+        font-family: courier;
+      }
