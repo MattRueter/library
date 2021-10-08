@@ -1,18 +1,15 @@
 body{
   background-color: #1f6179;
 }
-main{
+.main{
   margin:1%;
   poistion:fixed;
   display:flex;
   flex-direction: row;
   flex-wrap: no-wrap;
   justify-content:flex-start;
-  background-image: url("library.png");
-  /*background-image: url("books.png");*/
-  /*background-image: url("stacks.png")*/
-  /*background-image: url("row.jpg");*/
-  /*background-color: #f69292;*/
+  background-image: url("row.jpg");
+
 }
 .main1{
   background-image: url("books.png");
@@ -21,11 +18,54 @@ main{
   background-image: url("stacks.png")
 }
 .main3{
-  background-image: url("row.jpg");
+  background-image: url("library.png");
 }
 .main4{
+  background-image: none;
   background-color: #f69292;
 }
+#backgroundMenuBtn{
+  margin:5%;
+  background-color: #c9dce1;
+  border-radius: 5px;
+  width:175px;
+}
+.backgroundMenuContainer{
+    display:none;
+}
+.backgroundMenu{
+  display:flex;
+  flex-direction: row;
+  justify-content:center;
+  flex-wrap: wrap;
+  margin-top:8%;
+  height:80px;
+  width:170px;
+  font-size: large;
+}
+.backgroundBtn{
+  width: 35px;
+  height: 25px;
+  font-size: small;
+  margin:2%;
+  background-color: #166685;
+}
+        #background1{
+          background-image: url("books.png");
+        }
+        #background2{
+          background-image: url("stacks.png");
+        }
+        #background3{
+          background-image: url("library.png");
+        }
+        #background4{
+          background-image: none;
+          background-color: #f69292;
+        }
+        #background5{
+          background-image: url("row.jpg");
+        }
 .formContainer{
   background-color: gray;
   box-shadow: 1px 1px 15px black;
@@ -56,6 +96,17 @@ main{
 button{
   width:100px;
 }
+
+.sortContainer{
+  display:none;
+  flex-direction:column;
+  justify-content: center;
+  border: 1px solid black;
+  height:150px;
+}
+  .sortContainerShow{
+    display:flex;
+  }
 .sortBtn{
   margin-top: 5%;
 }
@@ -101,7 +152,30 @@ button{
       background-color:lightblue;
     }
 
-
+.modifyForm{
+  display:none;
+}
+  .showModify{
+    display:flex;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content:space-around;
+    border:1px solid black;
+    border-top-right-radius:35px;
+    border-bottom-right-radius: 35px;
+    background-color: lightgray;
+    height:200px;
+    width:270px;
+    background-color: lightgray;
+    position:fixed;
+    margin-top:20%;
+    margin-left:65%;
+  }
+  #updateBtn{
+    width:200px;
+    background-color:white;
+    border-radius: 20px;
+  }
 #displayContainer{
   display:flex;
   flex-direction: column;
@@ -129,4 +203,7 @@ button{
         width:500px;
         font-size: large;
         font-family: courier;
+      }
+      .displayItem:hover{
+        box-shadow:7px 7px 2px lightblue;
       }

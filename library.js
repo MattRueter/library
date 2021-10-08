@@ -25,14 +25,32 @@ function Book(title,author,language,status,comment){
 const timeBox= document.querySelector('#time');
   timeBox.textContent=new Date()
 
-document.getElementById("background").onclick=function(){toggleBackground()};
-function toggleBackground(){
-  document.querySelector("main").classList.toggle('main1')
-  /*document.querySelector("main").classList.toggle('main2');
-  document.querySelector("main").classList.toggle('main3');
-  document.querySelector("main").classList.toggle('main4');*/
+              //to toggle background image
+document.getElementById("backgroundMenuBtn").onclick=function(){openBackgroundMenu()};
+function openBackgroundMenu(){
+  document.getElementById("backgroundMenuContainer").classList.toggle("backgroundMenu");
 }
-
+const main=document.querySelector('main');
+document.getElementById("background1").onclick=function(){toggleBackground1()};
+function toggleBackground1(){
+  main.className='main main1';
+}
+document.getElementById("background2").onclick=function(){toggleBackground2()};
+function toggleBackground2(){
+  main.className='main main2';
+}
+document.getElementById("background3").onclick=function(){toggleBackground3()};
+function toggleBackground3(){
+  main.className='main main3';
+}
+document.getElementById("background4").onclick=function(){toggleBackground4()};
+function toggleBackground4(){
+  main.className='main main4';
+}
+document.getElementById("background5").onclick=function(){toggleBackground5()};
+  function toggleBackground5(){
+    main.className='main';
+  }
 
                         //code for adding books to the array and displaying them.
 const formContainer=document.querySelector('.formContainer');
@@ -65,11 +83,44 @@ function addBookToList (){
 
 
 
-        //code for displaying books by criteria.       // ! if not empty and not changing criteria 'refresh're-orders some items rather than doing nothing.
+              //code for modifying individual entries. Including deletion
+function callModifyMenu(array,book,bookTitle,...args){
+document.getElementById("modifyForm").classList="showModify";
+    document.getElementById("modifyTitle").value=bookTitle;
+    document.getElementById("modifyAuthor").value=args[0];
+    document.getElementById("modifyLanguage").value=args[1];
+    document.getElementById("modifyStatus").value=args[2];
+  document.getElementById("bookDelete").onclick=function(){deleteBook(array,book,bookTitle)};
+}
+document.getElementById("closeModifyWindow").addEventListener('click', ()=>{
+    document.getElementById("modifyForm").classList="modifyForm";
+});
+
+function deleteBook(array,book,bookTitle){
+  if(array!=myLibrary){
+      index=array.findIndex(title => title.title==bookTitle);
+      array.splice(index,1);
+      displayContainer.removeChild(displayContainer.children[index])
+      index=myLibrary.findIndex(title => title.title==bookTitle)
+      myLibrary.splice(index,1);
+  }else{
+    index=array.findIndex(title => title.title==bookTitle);
+    array.splice(index,1);
+    displayContainer.removeChild(displayContainer.children[index])
+    }
+  };
+
+
+
+
+        //code for displaying books by criteria. Buttons and events.Functions further down.
+document.getElementById("sortBtn").addEventListener('click', ()=>{
+    document.getElementById("sortContainer").classList.toggle("sortContainerShow");
+});
 const sortTitleBtn=document.querySelector('#sortTitleBtn');
   sortTitleBtn.addEventListener('click', ()=>{
     myLibrary.sort((a,b) => a.title.charAt(0) > b.title.charAt(0) ? 1:-1);
-    if(displayContainer.childElementCount>1){
+    if(displayContainer.childElementCount>0){
       clearDisplay();
       displayBooks('title');
     }else{
@@ -79,7 +130,7 @@ const sortTitleBtn=document.querySelector('#sortTitleBtn');
   const sortAuthorBtn=document.querySelector('#sortAuthorBtn');
     sortAuthorBtn.addEventListener('click', ()=>{
         myLibrary.sort((a,b) => a.author.charAt(0) > b.author.charAt(0) ? 1:-1);
-      if(displayContainer.childElementCount>1){
+      if(displayContainer.childElementCount>0){
         clearDisplay();
         displayBooks('author');
       }else{
@@ -89,7 +140,7 @@ const sortTitleBtn=document.querySelector('#sortTitleBtn');
   const sortLanguageBtn=document.querySelector('#sortLanguageBtn');
     sortLanguageBtn.addEventListener('click', ()=>{
         myLibrary.sort((a,b) => a.language.charAt(0) > b.language.charAt(0) ? 1:-1);
-      if(displayContainer.childElementCount>1){
+      if(displayContainer.childElementCount>0){
         clearDisplay();
         displayBooks('language');
       }else{
@@ -99,7 +150,7 @@ const sortTitleBtn=document.querySelector('#sortTitleBtn');
   const sortStatusBtn=document.querySelector('#sortStatusBtn');
     sortStatusBtn.addEventListener('click', ()=>{
       myLibrary.sort((a,b) => a.status.charAt(0) > b.status.charAt(0) ? -1:1);
-      if(displayContainer.childElementCount>1){
+      if(displayContainer.childElementCount>0){
         clearDisplay();
         displayBooks('status');
       }else {
@@ -108,9 +159,7 @@ const sortTitleBtn=document.querySelector('#sortTitleBtn');
   });
 
 
-
-            ////filters will go here.
-//const filterForm=document.querySelector('#filterForm');
+                        //code for filter form.
   const filterBtn=document.querySelector('#filterBtn')
     const filterTitleField=document.querySelector('#filterTitle');
     const filterAuthorField=document.querySelector('#filterAuthor');
@@ -152,12 +201,13 @@ filterBtn.addEventListener('click', ()=>{
 
 
 
-                      ////functions for displaying books
+                      ////functions for displaying books and filter functions
 const displayContainer=document.querySelector('#displayContainer');
 const clear=document.querySelector('#clear');
   clear.addEventListener('click', () => {
     clearDisplay();
   });
+
 function displayBooks(arg){
       myLibrary.forEach(item =>{
   if(arg=='title'){
@@ -173,9 +223,11 @@ function displayBooks(arg){
       displayContainer.appendChild(displayItem);
       displayItem.classList.add('displayItem');
       displayItem.textContent +=message;
+  displayItem.addEventListener('click', ()=>{
+      callModifyMenu(myLibrary,displayItem,item.title,item.author,item.language,item.status);
+      });
   });
 }
-
 
 
 function displayFilteredTitle(){
@@ -186,6 +238,9 @@ function displayFilteredTitle(){
       displayContainer.appendChild(displayItem);
       displayItem.classList.add('displayItem');
       displayItem.textContent +=message;
+    displayItem.addEventListener('click', ()=>{
+          callModifyMenu(titleFiltered,displayItem,item.title,item.author,item.language,item.status);
+          });
     });
 };
 function displayFilteredAuthor(){
@@ -196,6 +251,9 @@ function displayFilteredAuthor(){
       displayContainer.appendChild(displayItem);
       displayItem.classList.add('displayItem');
       displayItem.textContent +=message;
+    displayItem.addEventListener('click', ()=>{
+          callModifyMenu(authorFiltered,displayItem,item.title,item.author,item.language,item.status);
+          });
     });
 };
 function displayFilteredLanguage(){
@@ -206,6 +264,9 @@ function displayFilteredLanguage(){
       displayContainer.appendChild(displayItem);
       displayItem.classList.add('displayItem');
       displayItem.textContent +=message;
+    displayItem.addEventListener('click', ()=>{
+          callModifyMenu(languageFiltered,displayItem,item.title,item.author,item.language,item.status);
+          });
     });
 };
 function displayFilteredStatus(){
@@ -216,12 +277,11 @@ function displayFilteredStatus(){
       displayContainer.appendChild(displayItem);
       displayItem.classList.add('displayItem');
       displayItem.textContent +=message;
+    displayItem.addEventListener('click', ()=>{
+          callModifyMenu(statusFiltered,displayItem,item.title,item.author,item.language,item.status);
+          });
     });
 };
-
-
-
-
 function displayNewBook(){
   n=myLibrary.length-1;
   newEntryInfo=`"`+myLibrary[n].title+`", by `+myLibrary[n].author+". "+
@@ -231,8 +291,7 @@ function displayNewBook(){
       displayItem.classList.add('displayItem');
       displayItem.textContent =newEntryInfo;
   };
-
-  function clearDisplay(){
+function clearDisplay(){
       const displayItem=document.querySelector('.displayItem');
       numberItems=displayContainer.childElementCount;
         if(numberItems>0){

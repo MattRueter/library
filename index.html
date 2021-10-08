@@ -7,7 +7,7 @@
   <title>Library</title>
 </head>
     <body>
-        <main>
+        <main class="main">
           <div class="formContainer">
             <div id="time"></div>
             <div class="addBookForm">
@@ -17,13 +17,15 @@
                 <input type='text' class="input" id='status' placeholder='"read" or "not read"'></input>
                 <button type='text' class="input" id='addBookBtn'>Add Book</button>
             </div>
-            <button id="sortTitleBtn" class="sortBtn">Show by title</button>
-            <button id="sortAuthorBtn" class="sortBtn">Show by author</button>
-            <button id="sortLanguageBtn" class="sortBtn">Show by language</button>
-            <button id="sortStatusBtn" class="sortBtn">Show by status</button>
-            <button id="clear" class="sortBtn">clear</button>
-            <button id="filterMenuBtn" class="sortBtn">Filter</button>
-            <button id="background">Background</button>
+                <button id="sortBtn" class="sortBtn">Display books</button>
+            <div id="sortContainer" class="sortContainer">
+                <button id="sortTitleBtn" class="sortBtn">by title</button>
+                <button id="sortAuthorBtn" class="sortBtn">by author</button>
+                <button id="sortLanguageBtn" class="sortBtn">by language</button>
+                <button id="sortStatusBtn" class="sortBtn">by status</button>
+                <button id="clear" class="sortBtn">clear</button>
+            </div>
+                <button id="filterMenuBtn" class="sortBtn">Filter</button>
             <div class="filterForm" id="filterForm">
                 <button class="closeWindow">x</button>
                 <input type='text' class="input" id='filterTitle' placeholder='by title'></input>
@@ -32,9 +34,26 @@
                 <input type='text' class="input" id='filterStatus' placeholder='"read" or "not read"'></input>
                 <button type='text' class="input" id='filterBtn'>Search</button>
             </div>
-          </div>
-            <div id="displayContainer">
+                <button id="backgroundMenuBtn">Change background</button>
+            <div id="backgroundMenuContainer" class="backgroundMenuContainer">
+                <button class="backgroundBtn" id="background1"></button>
+                <button class="backgroundBtn"id="background2"></button>
+                <button class="backgroundBtn" id="background3"></button>
+                <button class="backgroundBtn" id="background4"></button>
+                <button class="backgroundBtn" id="background5"></button>
             </div>
+          </div>
+                <div id="modifyForm" class="modifyForm">
+                  <input type='text' class="input" id='modifyTitle' placeholder='by title'></input>
+                  <input type='text' class="input" id='modifyAuthor' placeholder='by author'></input>
+                  <input type='text' class="input" id='modifyLanguage' placeholder='by language'></input>
+                  <input type='text' class="input" id='modifyStatus' placeholder='"read" or "not read"'></input>
+                  <button id="updateBtn">Update</button>
+                  <button id="bookDelete">Delete item</button>
+                  <button id="closeModifyWindow">close</button>
+                </div>
+                <div id="displayContainer">
+                </div>
         </main>
       </body>
 </html>
