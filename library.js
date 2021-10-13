@@ -11,7 +11,7 @@ let myLibrary=[
   {title:'A Sangre y Fuego',author:'Manuel Chaves Nogales',language:'Spanish',status:'not read'},
 ];
 
-                //constructor
+                                                          //Object constructor
 function Book(title,author,language,status,comment){
   this.title=title;
   this.author=author;
@@ -19,13 +19,12 @@ function Book(title,author,language,status,comment){
   this.status=status;
   this.comment=comment;
   this.info=function(){
-    return title+". "+author+". "+language+" "+status;   //not sure if necessary or if should be built on prototype instead.
   }
 };
 const timeBox= document.querySelector('#time');
   timeBox.textContent=new Date()
 
-              //to toggle background image
+                                                        //to toggle background image
 document.getElementById("backgroundMenuBtn").onclick=function(){openBackgroundMenu()};
 function openBackgroundMenu(){
   document.getElementById("backgroundMenuContainer").classList.toggle("backgroundMenu");
@@ -52,7 +51,7 @@ document.getElementById("background5").onclick=function(){toggleBackground5()};
     main.className='main';
   }
 
-                        //code for adding books to the array and displaying them.
+                                                          //code for adding books to the array.
 const formContainer=document.querySelector('.formContainer');
   const addBookBtn=document.querySelector('#addBookBtn');
     const titleField=document.querySelector('#title');
@@ -83,37 +82,64 @@ function addBookToList (){
 
 
 
-              //code for modifying individual entries. Including deletion
+                                              //code for modifying individual entries. Including deletion
 function callModifyMenu(array,book,bookTitle,...args){
 document.getElementById("modifyForm").classList="showModify";
-    document.getElementById("modifyTitle").value=bookTitle;
-    document.getElementById("modifyAuthor").value=args[0];
-    document.getElementById("modifyLanguage").value=args[1];
-    document.getElementById("modifyStatus").value=args[2];
+  document.getElementById("modifyTitle").value=bookTitle;
+  document.getElementById("modifyAuthor").value=args[0];
+  document.getElementById("modifyLanguage").value=args[1];
+  document.getElementById("modifyStatus").value=args[2];
+    index=array.findIndex(title => title.title==bookTitle);
+    bookToEdit=array[index];
   document.getElementById("bookDelete").onclick=function(){deleteBook(array,book,bookTitle)};
-}
-document.getElementById("closeModifyWindow").addEventListener('click', ()=>{
+  document.getElementById("updateBtn").onclick=function(){addModifiedBookToList(bookToEdit)};
+};
+  document.getElementById("closeModifyWindow").addEventListener('click', ()=>{
     document.getElementById("modifyForm").classList="modifyForm";
 });
 
 function deleteBook(array,book,bookTitle){
-  if(array!=myLibrary){
-      index=array.findIndex(title => title.title==bookTitle);
+  if(modifyTitle.value==''){
+    alert("choose a book.");
+  }else if(array!=myLibrary){
       array.splice(index,1);
       displayContainer.removeChild(displayContainer.children[index])
       index=myLibrary.findIndex(title => title.title==bookTitle)
       myLibrary.splice(index,1);
   }else{
-    index=array.findIndex(title => title.title==bookTitle);
-    array.splice(index,1);
-    displayContainer.removeChild(displayContainer.children[index])
-    }
-  };
+    myLibrary.splice(index,1);
+    displayContainer.removeChild(displayContainer.children[index]);
+  }
+    modifyTitle.value='';
+    modifyAuthor.value='';
+    modifyLanguage.value='';
+    modifyStatus.value='';
+};
 
+function addModifiedBookToList(){
+  if(modifyTitle.value==''){
+    alert('choose a book.')
+  }else{
+    bookToEdit.title=modifyTitle.value;
+    bookToEdit.author=modifyAuthor.value;
+    bookToEdit.language=modifyLanguage.value;
+    bookToEdit.status=modifyStatus.value;
+      index=myLibrary.findIndex(title => title.title==bookToEdit.title);
+      myLibrary[index].title=bookToEdit.title;
+      myLibrary[index].author=bookToEdit.author;
+      myLibrary[index].language=bookToEdit.language;
+      myLibrary[index].status=bookToEdit.status;
 
+      clearDisplay();
+      filtered =='filtered'? displayFiltered(criteria,inputvalue) : displayBooks(criteria);
+}
+    modifyTitle.value='';
+    modifyAuthor.value='';
+    modifyLanguage.value='';
+    modifyStatus.value='';
+};
 
-
-        //code for displaying books by criteria. Buttons and events.Functions further down.
+                          //code for displaying books by criteria. Buttons and events.Functions further down.
 document.getElementById("sortBtn").addEventListener('click', ()=>{
     document.getElementById("sortContainer").classList.toggle("sortContainerShow");
 });
@@ -159,7 +185,7 @@ const sortTitleBtn=document.querySelector('#sortTitleBtn');
   });
 
 
-                        //code for filter form.
+                                                  //code for displaying books by filter.
   const filterBtn=document.querySelector('#filterBtn')
     const filterTitleField=document.querySelector('#filterTitle');
     const filterAuthorField=document.querySelector('#filterAuthor');
@@ -178,17 +204,25 @@ filterBtn.addEventListener('click', ()=>{
         filterLanguageField.value=='' && filterStatusField.value==''){
           alert("Oops.You'll need to enter criteria");           //create custom message box rather than alert.
         }else if(filterTitleField.value!=''){
+          criteria='title';
+          inputvalue=filterTitleField.value.toLowerCase();
           clearDisplay();
-          displayFilteredTitle();
+          displayFiltered(criteria,inputvalue);
         }else if(filterAuthorField.value!=''){
+          criteria='author';
+          inputvalue=filterAuthorField.value.toLowerCase();
           clearDisplay();
-          displayFilteredAuthor();
+          displayFiltered(criteria,inputvalue);
         }else if(filterLanguageField.value!=''){
+          criteria='language';
+          inputvalue=filterLanguageField.value.toLowerCase();
           clearDisplay();
-          displayFilteredLanguage();
+          displayFiltered(criteria,inputvalue);
         }else if(filterStatusField.value!=''){
+          criteria='status';
+          inputvalue=filterStatusField.value.toLowerCase();
           clearDisplay();
-          displayFilteredStatus();
+          displayFiltered(criteria,inputvalue);
         }
         filterTitleField.value='';
         filterAuthorField.value='';
@@ -196,12 +230,7 @@ filterBtn.addEventListener('click', ()=>{
         filterStatusField.value='';
   });
 
-
-
-
-
-
-                      ////functions for displaying books and filter functions
+                                    ////functions for displaying books and filter functions
 const displayContainer=document.querySelector('#displayContainer');
 const clear=document.querySelector('#clear');
   clear.addEventListener('click', () => {
@@ -212,76 +241,87 @@ function displayBooks(arg){
       myLibrary.forEach(item =>{
   if(arg=='title'){
       message=`"`+item.title+`",`+" by "+item.author+". "+item.language+". Have "+item.status;
+      criteria='title';
   }else if(arg=='author'){
       message=item.author+` "`+item.title+`", `+item.language+". Have "+item.status;
+      criteria='author';
   }else if(arg=='language'){
       message=item.language +`: "`+ item.title +`", by `+ item.author +". Have "+item.status;
+      criteria='language';
   }else if(arg=='status'){
       message="Have "+item.status +` "`+ item.title +`", by `+ item.author +". "+ item.language;
+      criteria='status';
   }
       const displayItem=document.createElement('div');
       displayContainer.appendChild(displayItem);
       displayItem.classList.add('displayItem');
       displayItem.textContent +=message;
+      filtered='not filtered';
   displayItem.addEventListener('click', ()=>{
       callModifyMenu(myLibrary,displayItem,item.title,item.author,item.language,item.status);
       });
   });
 }
+function displayFiltered(criteria,inputvalue){
+    if(criteria=='title'){
+      const filteredLibrary= myLibrary.filter(books => (books.title.toLowerCase()==inputvalue));
+      filteredLibrary.forEach(item =>{
+        message=`"`+item.title+`",`+" by "+item.author+". "+item.language+". Have "+item.status;
+        criteria='title';
+        const displayItem=document.createElement('div');
+        displayContainer.appendChild(displayItem);
+        displayItem.classList.add('displayItem');
+        displayItem.textContent +=message;
+        filtered='filtered';
+        displayItem.addEventListener('click', ()=>{
+                callModifyMenu(filteredLibrary,displayItem,item.title,item.author,item.language,item.status);
+              });
+        });
+    }else if(criteria=='author'){
+      const filteredLibrary= myLibrary.filter(writers => (writers.author.toLowerCase()==inputvalue));
+      filteredLibrary.forEach(item =>{
+        message=item.author+` "`+item.title+`", `+item.language+". Have "+item.status;
+        criteria='author';
+        const displayItem=document.createElement('div');
+        displayContainer.appendChild(displayItem);
+        displayItem.classList.add('displayItem');
+        displayItem.textContent +=message;
+        filtered='filtered';
+        displayItem.addEventListener('click', ()=>{
+                callModifyMenu(filteredLibrary,displayItem,item.title,item.author,item.language,item.status);
+              });
+        });
+    }else if(criteria=='language'){
+      const filteredLibrary= myLibrary.filter(languages => (languages.language.toLowerCase()==inputvalue));
+      filteredLibrary.forEach(item =>{
+        message=item.language +`: "`+ item.title +`", by `+ item.author +". Have "+item.status;
+        criteria='language';
+        const displayItem=document.createElement('div');
+        displayContainer.appendChild(displayItem);
+        displayItem.classList.add('displayItem');
+        displayItem.textContent +=message;
+        filtered='filtered';
+        displayItem.addEventListener('click', ()=>{
+                callModifyMenu(filteredLibrary,displayItem,item.title,item.author,item.language,item.status);
+              });
+        });
+    }else if(criteria=='status'){
+      const filteredLibrary= myLibrary.filter(state => (state.status.toLowerCase()==inputvalue));
+        filteredLibrary.forEach(item =>{
+          message="Have "+item.status +` "`+ item.title +`", by `+ item.author +". "+ item.language;
+          criteria='status';
+          const displayItem=document.createElement('div');
+          displayContainer.appendChild(displayItem);
+          displayItem.classList.add('displayItem');
+          displayItem.textContent +=message;
+          filtered='filtered';
+          displayItem.addEventListener('click', ()=>{
+                  callModifyMenu(filteredLibrary,displayItem,item.title,item.author,item.language,item.status);
+                });
+        });
+    }
+};
 
-
-function displayFilteredTitle(){
-  const titleFiltered= myLibrary.filter(books => (books.title==filterTitleField.value));
-    titleFiltered.forEach(item =>{
-      message=`"`+item.title+`",`+" by "+item.author+". "+item.language+". Have "+item.status;
-      const displayItem=document.createElement('div');
-      displayContainer.appendChild(displayItem);
-      displayItem.classList.add('displayItem');
-      displayItem.textContent +=message;
-    displayItem.addEventListener('click', ()=>{
-          callModifyMenu(titleFiltered,displayItem,item.title,item.author,item.language,item.status);
-          });
-    });
-};
-function displayFilteredAuthor(){
-  const authorFiltered= myLibrary.filter(writers => (writers.author==filterAuthorField.value));
-    authorFiltered.forEach(item =>{
-      message=item.author+` "`+item.title+`", `+item.language+". Have "+item.status;
-      const displayItem=document.createElement('div');
-      displayContainer.appendChild(displayItem);
-      displayItem.classList.add('displayItem');
-      displayItem.textContent +=message;
-    displayItem.addEventListener('click', ()=>{
-          callModifyMenu(authorFiltered,displayItem,item.title,item.author,item.language,item.status);
-          });
-    });
-};
-function displayFilteredLanguage(){
-  const languageFiltered= myLibrary.filter(languages => (languages.language==filterLanguageField.value));
-    languageFiltered.forEach(item =>{
-    message=item.language +`: "`+ item.title +`", by `+ item.author +". Have "+item.status;
-      const displayItem=document.createElement('div');
-      displayContainer.appendChild(displayItem);
-      displayItem.classList.add('displayItem');
-      displayItem.textContent +=message;
-    displayItem.addEventListener('click', ()=>{
-          callModifyMenu(languageFiltered,displayItem,item.title,item.author,item.language,item.status);
-          });
-    });
-};
-function displayFilteredStatus(){
-  const statusFiltered= myLibrary.filter(state => (state.status==filterStatusField.value));
-    statusFiltered.forEach(item =>{
-      message="Have "+item.status +` "`+ item.title +`", by `+ item.author +". "+ item.language;
-      const displayItem=document.createElement('div');
-      displayContainer.appendChild(displayItem);
-      displayItem.classList.add('displayItem');
-      displayItem.textContent +=message;
-    displayItem.addEventListener('click', ()=>{
-          callModifyMenu(statusFiltered,displayItem,item.title,item.author,item.language,item.status);
-          });
-    });
-};
 function displayNewBook(){
   n=myLibrary.length-1;
   newEntryInfo=`"`+myLibrary[n].title+`", by `+myLibrary[n].author+". "+
